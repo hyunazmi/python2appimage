@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python2appimage"
+version = "1.0.0"
+description = "Build an AppImage from a Python project"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "hyunazmi" }]
+requires-python = ">=3.8"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Repository = "https://github.com/hyunazmi/python2appimage"
+
+[project.optional-dependencies]
+dev = ["ruff"]
+
+[project.scripts]
+python2appimage = "python2appimage.cli:main"
+
+[tool.setuptools]
+packages = ["python2appimage"]
+
+[tool.setuptools.package-data]
+python2appimage = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# long lines are shell templates and regexes
+"python2appimage/constants.py" = ["E501"]
