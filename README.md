@@ -1,46 +1,52 @@
 # python2appimage
 
-Build an AppImage from a Python project.
+`python2appimage` adalah program python3 berbasis CLI untuk mengemas proyek Python menjadi [AppImage](https://appimage.org/) yang portabel dan mandiri. Hasilnya sudah membawa runtime Python dan dependensinya sendiri, sehingga bisa dijalankan di sebagian besar distribusi Linux tanpa perlu menginstal apa pun. Bisa dipakai untuk mengemas proyek berjenis GUI maupun CLI.
 
-## Install
+## Persyaratan
+
+- Linux (`x86_64` atau `aarch64`)
+- Python 3.8 atau lebih baru
+- Koneksi internet saat build pertama (runtime Python dan `appimagetool` diunduh dari GitHub lalu disimpan di `~/.cache/python2appimage`)
+
+## Instalasi
 
 ```
+git clone https://github.com/hyunazmi/python2appimage
+cd python2appimage
+python -m venv .venv
+source .venv/bin/activate
 pip install .
 ```
 
-## Usage
+## Penggunaan
 
 ```
 python2appimage --help
+```
+
+Opsi umum:
+
+| Opsi | Keterangan |
+|---|---|
+| `-d, --directory=DIR` | direktori proyek (default: direktori saat ini) |
+| `-e, --entry=ENTRY` | yang dijalankan: `MODULE`, `MODULE:FUNCTION` atau `SCRIPT.py` (default: terdeteksi otomatis) |
+| `-t, --type=TYPE` | tipe aplikasi: `gui` atau `cli` (default: `gui`) |
+| `-i, --icon=FILE` | ikon aplikasi: `.png`, `.svg` atau `.xpm` (default: terdeteksi otomatis) |
+| `-o, --output=FILE` | file keluaran (default: `NAME-VERSION-ARCH.AppImage`) |
+| `-p, --python-version=VER` | versi Python yang dibundel (default: `3.11`) |
+| `-q, --quiet` | sembunyikan pesan progres |
+
+## Contoh
+
+```
 python2appimage -d ./my_project -t cli -o dist/
 ```
 
-Equivalent: `python -m python2appimage ...`
+## Kredit
 
-## Development
+- [python-appimage](https://github.com/niess/python-appimage) untuk runtime Python siap pakai
+- [appimagetool](https://github.com/AppImage/appimagetool) untuk membuat AppImage
 
-```
-pip install -e ".[dev]"
-ruff check .
-```
-
-## Layout
-
-| File | Responsibility |
-|---|---|
-| `constants.py` | constants, regexes, shell templates |
-| `errors.py` | `Error`, `UsageError` |
-| `logger.py` | stderr logger |
-| `fsutils.py` | filesystem helpers |
-| `options.py` | option table, help/version text, argparse parser |
-| `config.py` | `Config` and argument validation |
-| `project.py` | project / entry point / output path detection |
-| `icons.py` | icon detection and placeholder |
-| `download.py` | download and cache of Python runtime and appimagetool |
-| `templates.py` | `.desktop` and `AppRun` generation |
-| `builder.py` | AppImage build pipeline and `run()` |
-| `cli.py` | `main()` and exit codes |
-
-## License
+## Lisensi
 
 MIT
