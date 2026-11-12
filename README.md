@@ -1,14 +1,14 @@
 # python2appimage
 
-python2appimage is a command-line tool that packages a Python project into a portable, self-contained AppImage. The result bundles its own Python runtime and dependencies, so it runs on most Linux distributions without installing anything. It works for both GUI and CLI applications.
+`python2appimage` adalah program python3 berbasis CLI untuk mengemas proyek Python menjadi [AppImage](https://appimage.org/) yang portabel dan mandiri. Hasilnya sudah membawa runtime Python dan dependensinya sendiri, sehingga bisa dijalankan di sebagian besar distribusi Linux tanpa perlu menginstal apa pun.
 
-## Requirements
+## Persyaratan
 
-- Linux (`x86_64` or `aarch64`)
-- Python 3.8 or newer
-- Internet access on the first build (the Python runtime and `appimagetool` are downloaded from GitHub and cached in `~/.cache/python2appimage`)
+- Linux (`x86_64` atau `aarch64`)
+- Python 3.8 atau lebih baru
+- Koneksi internet saat build pertama (runtime Python dan `appimagetool` diunduh dari GitHub lalu disimpan di `~/.cache/python2appimage`)
 
-## Install
+## Instalasi
 
 ```
 git clone https://github.com/hyunazmi/python2appimage
@@ -18,36 +18,36 @@ source .venv/bin/activate
 pip install .
 ```
 
-## Usage
+## Penggunaan
 
 ```
 python2appimage --help
 ```
 
-Common options:
+Opsi umum:
 
-| Option | Description |
+| Opsi | Keterangan |
 |---|---|
-| `-d, --directory=DIR` | project directory (default: current directory) |
-| `-e, --entry=ENTRY` | what to run: `MODULE`, `MODULE:FUNCTION` or `SCRIPT.py` (default: auto-detected) |
-| `-t, --type=TYPE` | application type: `gui` or `cli` (default: `gui`) |
-| `-i, --icon=FILE` | application icon: `.png`, `.svg` or `.xpm` (default: auto-detected) |
-| `-o, --output=FILE` | output file (default: `NAME-VERSION-ARCH.AppImage`) |
-| `-p, --python-version=VER` | bundled Python version (default: `3.11`) |
-| `-n, --no-compile` | do not precompile bytecode (`.pyc`); precompiling makes startup faster |
-| `-q, --quiet` | suppress progress messages |
+| `-d, --directory=DIR` | direktori proyek (default: direktori saat ini) |
+| `-e, --entry=ENTRY` | yang dijalankan: `MODULE`, `MODULE:FUNCTION` atau `SCRIPT.py` (default: terdeteksi otomatis) |
+| `-t, --type=TYPE` | tipe aplikasi: `gui` atau `cli` (default: `gui`) |
+| `-i, --icon=FILE` | ikon aplikasi: `.png`, `.svg` atau `.xpm` (default: terdeteksi otomatis) |
+| `-o, --output=FILE` | file keluaran (default: `NAME-VERSION-ARCH.AppImage`) |
+| `-p, --python-version=VER` | versi Python yang dibundel (default: `3.11`) |
+| `-n, --no-compile` | jangan precompile bytecode (`.pyc`) |
+| `-q, --quiet` | sembunyikan pesan progres |
 
-## Example
+## Contoh
 
 ```
 python2appimage -d ./my_project -t cli -o dist/
 ```
 
-## Credits
+## Kredit
 
-- [python-appimage](https://github.com/niess/python-appimage) for the prebuilt Python runtimes
-- [appimagetool](https://github.com/AppImage/appimagetool) for creating the AppImage
+- [python-appimage](https://github.com/niess/python-appimage) untuk runtime Python siap pakai
+- [appimagetool](https://github.com/AppImage/appimagetool) untuk membuat AppImage
 
-## License
+## Lisensi
 
-MIT
+[MIT](LICENSE)
