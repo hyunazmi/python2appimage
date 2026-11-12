@@ -5,62 +5,63 @@
 [![AppImage](https://img.shields.io/badge/Output-AppImage-4CAF50?style=flat)](https://appimage.org/)
 [![License](https://img.shields.io/github/license/hyunazmi/python2appimage?style=flat&color=blue)](https://github.com/hyunazmi/python2appimage/blob/main/LICENSE)
 
-`python2appimage` adalah program python3 berbasis CLI untuk mengemas proyek Python menjadi [AppImage](https://appimage.org/) yang portabel dan mandiri. Hasilnya sudah membawa runtime Python dan dependensinya sendiri, sehingga bisa dijalankan di sebagian besar distribusi Linux tanpa perlu menginstal apa pun.
+python2appimage is a command-line tool that packages a Python project into a portable, self-contained AppImage. The result bundles its own Python runtime and dependencies, so it runs on most Linux distributions without installing anything. It works for both GUI and CLI applications.
 
-## Persyaratan
+## Requirements
 
-- Linux (`x86_64` atau `aarch64`)
-- Python 3.8 atau lebih baru
+- Linux (`x86_64` or `aarch64`)
+- Python 3.8 or newer
+- Internet access on the first build (the Python runtime and `appimagetool` are downloaded from GitHub and cached in `~/.cache/python2appimage`)
 
-## Instalasi
+## Install
 
 ```bash
-# clone repositori dari github
+# clone the repository from github
 git clone https://github.com/hyunazmi/python2appimage
 
-# masuk ke folder project
+# enter the project folder
 cd python2appimage
 
-# buat virtual environment
-python3 -m venv .venv
+# create a virtual environment
+python -m venv .venv
 
-# aktifkan virtual environment
+# activate the virtual environment
 source .venv/bin/activate
 
 # install python2appimage
 pip install .
 ```
 
-## Penggunaan
+## Usage
 
-```bash
+```
 python2appimage --help
 ```
 
-Opsi umum:
+Common options:
 
-| Opsi | Keterangan |
+| Option | Description |
 |---|---|
-| `-d, --directory=DIR` | direktori proyek (default: direktori saat ini) |
-| `-e, --entry=ENTRY` | yang dijalankan: `MODULE`, `MODULE:FUNCTION` atau `SCRIPT.py` (default: terdeteksi otomatis) |
-| `-t, --type=TYPE` | tipe aplikasi: `gui` atau `cli` (default: `gui`) |
-| `-i, --icon=FILE` | ikon aplikasi: `.png`, `.svg` atau `.xpm` (default: terdeteksi otomatis) |
-| `-o, --output=FILE` | file keluaran (default: `NAME-VERSION-ARCH.AppImage`) |
-| `-p, --python-version=VER` | versi Python yang dibundel (default: `3.11`) |
-| `-n, --no-compile` | jangan precompile bytecode (`.pyc`) |
-| `-q, --quiet` | sembunyikan pesan progres |
+| `-d, --directory=DIR` | project directory (default: current directory) |
+| `-e, --entry=ENTRY` | what to run: `MODULE`, `MODULE:FUNCTION` or `SCRIPT.py` (default: auto-detected) |
+| `-t, --type=TYPE` | application type: `gui` or `cli` (default: `gui`) |
+| `-i, --icon=FILE` | application icon: `.png`, `.svg` or `.xpm` (default: auto-detected) |
+| `-o, --output=FILE` | output file (default: `NAME-VERSION-ARCH.AppImage`) |
+| `-p, --python-version=VER` | bundled Python version (default: `3.11`) |
+| `-n, --no-compile` | do not precompile bytecode (`.pyc`) |
+| `-q, --quiet` | suppress progress messages |
 
-## Contoh
+## Example
 
-```bash
+```
 python2appimage -d ./my_project -t cli -o dist/
 ```
 
-## Kredit
+## Credits
 
-- [python-appimage](https://github.com/niess/python-appimage) untuk runtime Python siap pakai
-- [appimagetool](https://github.com/AppImage/appimagetool) untuk membuat AppImage
+- [python-appimage](https://github.com/niess/python-appimage) for the prebuilt Python runtimes
+- [appimagetool](https://github.com/AppImage/appimagetool) for creating the AppImage
 
-## Lisensi
+## License
 
-[MIT](LICENSE)
+MIT

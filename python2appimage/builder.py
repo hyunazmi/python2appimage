@@ -143,14 +143,17 @@ class AppImageBuilder:
             # the AppImage is read-only, so sources can never change under the cache
             command += ["--invalidation-mode", "unchecked-hash"]
 
-        # force the project's own files; leave pip's existing .pyc files alone
-        targets = [(self.source_dir, ["-f"]), (self._purelib(), [])]
-        for path, extra in targets:
+        # Force and report the project's own files. Third-party packages are compiled
+        # quietly, since many ship templates or test data that are not valid Python.
+        targets = [(self.source_dir, ["-f"], True), (self._purelib(), [], False)]
+        for path, extra, report in targets:
             if path is None:
                 continue
-            result = subprocess.run(command + extra + [str(path)], env=pip_environment())
-            if result.returncode:
-                log.warn(f"some files in {path.name} could not be compiled; "
+            output = None if report else subprocess.DEVNULL
+            result = subprocess.run(command + extra + [str(path)], env=pip_environment(),
+                                    stdout=output, stderr=output)
+            if report and result.returncode:
+                log.warn("some project files could not be compiled, "
                          "they will still run, just without cached bytecode")
 
     def install_icon(self) -> None:
