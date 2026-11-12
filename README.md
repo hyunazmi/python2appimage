@@ -22,7 +22,7 @@ git clone https://github.com/hyunazmi/python2appimage
 cd python2appimage
 
 # buat virtual environment
-python -m venv .venv
+python3 -m venv .venv
 
 # aktifkan virtual environment
 source .venv/bin/activate
