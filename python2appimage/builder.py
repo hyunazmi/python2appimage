@@ -8,13 +8,13 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from typing import Dict, Sequence
+from typing import Dict, Optional, Sequence
 
 from .config import Config
 from .constants import COPY_IGNORE, PIP_STRIPPED_VARS, PROG, SUPPORTED_ARCHES
 from .download import obtain_appimagetool, obtain_python_runtime
 from .errors import Error
-from .fsutils import human_size, make_world_readable
+from .fsutils import human_size, is_inside, make_world_readable
 from .icons import detect_icon, write_placeholder_icon
 from .logger import log
 from .project import Project, detect_project, resolve_output
@@ -59,6 +59,7 @@ class AppImageBuilder:
             self.copy_sources()
             self.install_dependencies()
             self.remove_build_leftovers()
+            self.compile_bytecode()
             self.install_icon()
             self.write_desktop_file()
             self.write_apprun()
@@ -121,6 +122,36 @@ class AppImageBuilder:
         leftovers += self.source_dir.glob("src/*.egg-info")
         for path in leftovers:
             shutil.rmtree(path, ignore_errors=True)
+
+    def _purelib(self) -> Optional[Path]:
+        code = "import sysconfig; print(sysconfig.get_paths()['purelib'])"
+        result = subprocess.run([str(self.python), "-c", code], env=pip_environment(),
+                                text=True, stdout=subprocess.PIPE,
+                                stderr=subprocess.DEVNULL)
+        if result.returncode:
+            return None
+        path = Path(result.stdout.strip())
+        return path if path.is_dir() and is_inside(self.appdir, path) else None
+
+    def compile_bytecode(self) -> None:
+        if not self.config.compile_bytecode:
+            return
+        log.info("precompiling bytecode")
+
+        command = [str(self.python), "-m", "compileall", "-q"]
+        if int(self.config.python_version.split(".")[1]) >= 7:
+            # the AppImage is read-only, so sources can never change under the cache
+            command += ["--invalidation-mode", "unchecked-hash"]
+
+        # force the project's own files; leave pip's existing .pyc files alone
+        targets = [(self.source_dir, ["-f"]), (self._purelib(), [])]
+        for path, extra in targets:
+            if path is None:
+                continue
+            result = subprocess.run(command + extra + [str(path)], env=pip_environment())
+            if result.returncode:
+                log.warn(f"some files in {path.name} could not be compiled; "
+                         "they will still run, just without cached bytecode")
 
     def install_icon(self) -> None:
         project = self.project

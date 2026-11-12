@@ -38,6 +38,9 @@ OPTIONS: Tuple[Option, ...] = (
     Option("-p", "--python-version", "bundled Python version "
            f"(default: {DEFAULT_PYTHON_VERSION})",
            metavar="VER", dest="python_version", default=DEFAULT_PYTHON_VERSION),
+    Option("-n", "--no-compile", "do not precompile bytecode (.pyc); "
+           "precompiling makes startup faster", action="store_true",
+           dest="no_compile"),
     Option("-q", "--quiet", "suppress progress messages",
            action="store_true", dest="quiet"),
     Option("-h", "--help", "display this help and exit", action="help"),

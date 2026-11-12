@@ -20,6 +20,7 @@ class Config:
     output: Optional[str]
     python_version: str
     quiet: bool
+    compile_bytecode: bool = True
 
 
 def parse_args(argv: Sequence[str]) -> Config:
@@ -55,4 +56,5 @@ def parse_args(argv: Sequence[str]) -> Config:
 
     return Config(directory=directory.resolve(), entry=args.entry or None,
                   app_type=args.app_type, icon=icon, output=args.output,
-                  python_version=args.python_version, quiet=args.quiet)
+                  python_version=args.python_version, quiet=args.quiet,
+                  compile_bytecode=not args.no_compile)
