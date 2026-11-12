@@ -11,7 +11,6 @@
 
 - Linux (`x86_64` atau `aarch64`)
 - Python 3.8 atau lebih baru
-- Koneksi internet saat build pertama (runtime Python dan `appimagetool` diunduh dari GitHub lalu disimpan di `~/.cache/python2appimage`)
 
 ## Instalasi
 
